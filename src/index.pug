@@ -1,0 +1,18 @@
+doctype html
+html(lang="en" data-bs-theme="dark")
+  head
+    block head
+      meta(charset="UTF-8")
+      meta(name="viewport", content="width=device-width, initial-scale=1.0")
+      title= title
+      block styles
+        link(rel="stylesheet" href="~/src/styles/theme.scss")
+        link(rel="stylesheet" href="~/src/styles/layout.scss")
+      block scripts
+        script(src="~/node_modules/bootstrap/dist/js/bootstrap.bundle.js")
+  body
+    block body
+      .row.g-0.h-100.flex-nowrap
+        include sidebar.pug
+        .col.h-100.overflow-y-auto.bg-dark-subtle
+          block content

@@ -1,0 +1,13 @@
+#sidebar.col.h-100.border-end.d-flex.flex-column.overflow-y-scroll
+  //- #infoUpdateAvail.text.text-center.bg-secondary.text-light.m-1.mb-0(hidden) Update available
+  .p-1.sticky-top.bg-dark
+    //- #errorOpenFile.text.text-center.w-100.bg-danger.text-light.mb-1(hidden) Failed to open file (see console)
+    //- #errorSaveFile.text.text-center.w-100.bg-danger.text-light.mb-1(hidden) Failed to save file (see console)
+    include file-status
+    input#searchBox.form-control.width-100(placeholder="Filter" hidden)
+  #list.px-1.flex-grow-1
+  .p-1.sticky-bottom.bg-dark.d-flex
+    .dropdown.flex-shrink-0
+      button#createItemBtn.btn.btn-secondary.dropdown-toggle(data-bs-toggle="dropdown" hidden) Create Item
+      ul#createItemMenu.dropdown-menu
+    .text.text-end.flex-grow-1= version || "v0.0.0"

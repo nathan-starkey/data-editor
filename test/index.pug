@@ -1,0 +1,13 @@
+extends ../src/index.pug
+
+prepend head
+  -
+    var title = "Data Editor";
+    var kind = "folder";
+    var version = "v1.0.0";
+
+append head
+  script(type="module").
+    import { MyPlugin } from "./plugin";
+    
+    globalThis["plugin"] = new MyPlugin();
