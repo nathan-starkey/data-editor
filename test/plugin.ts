@@ -1,5 +1,16 @@
 import { Plugin, PluginBase, UseFile } from "../src/scripts/plugin";
 
+import { renderFileStatus, renderItemList } from "../src/scripts/templates";
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderFileStatus("folder", false, "", false, false);
+
+  renderItemList({
+    creatures: ["cow", "duck", "zebra", "crab"],
+    items: ["sword", "notsword"]
+  }, true, "creatures", "crab", () => void 0)
+});
+
 export class MyPlugin implements PluginBase, UseFile {
   kind: "file" = "file";
   openFile(handle: FileSystemFileHandle): Promise<void> {

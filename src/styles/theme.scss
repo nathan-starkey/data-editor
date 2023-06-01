@@ -61,6 +61,12 @@ $list-group-item-padding-x: $custom-padding-x;
   padding: $custom-padding-y $custom-padding-x;
 }
 
+.text-link:hover
+{
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .btn
 {
   vertical-align: baseline;

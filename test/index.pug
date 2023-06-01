@@ -3,11 +3,26 @@ extends ../src/index.pug
 prepend head
   -
     var title = "Data Editor";
-    var kind = "folder";
-    var version = "v1.0.0";
+    var version = "v0.0.0";
 
-append head
+//- append head
+//-   script(type="module").
+//-     import { MyPlugin } from "./plugin";
+//-     globalThis["plugin"] = new MyPlugin();
+
+append scripts
   script(type="module").
-    import { MyPlugin } from "./plugin";
-    
-    globalThis["plugin"] = new MyPlugin();
+    import {
+      renderProjectStatus,
+      renderNewItemDropdown
+    } from "../src/scripts/rendering";
+  
+    document.addEventListener("DOMContentLoaded", () => {
+      renderProjectStatus(null, false);
+      renderNewItemDropdown(null);
+    });
+
+block new-item-menu
+  li: button.dropdown-item Class A
+  li: button.dropdown-item Class B
+  li: button.dropdown-item Class C
