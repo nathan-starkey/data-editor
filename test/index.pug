@@ -5,24 +5,10 @@ prepend head
     var title = "Data Editor";
     var version = "v0.0.0";
 
-//- append head
-//-   script(type="module").
-//-     import { MyPlugin } from "./plugin";
-//-     globalThis["plugin"] = new MyPlugin();
-
 append scripts
-  script(type="module").
-    import {
-      renderProjectStatus,
-      renderNewItemDropdown
-    } from "../src/scripts/rendering";
-  
-    document.addEventListener("DOMContentLoaded", () => {
-      renderProjectStatus(null, false);
-      renderNewItemDropdown(null);
-    });
+  script(type="module" src="./main.ts")
 
-block new-item-menu
+block new-object-list
   li: button.dropdown-item Class A
   li: button.dropdown-item Class B
   li: button.dropdown-item Class C

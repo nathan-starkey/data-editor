@@ -17,13 +17,8 @@ body
   max-width: 320px;
 }
 
-#searchBox
+#txtFilter
 {
   border-radius: 0;
   padding: $custom-padding-y $custom-padding-x;
-}
-
-#createItemMenu>li>button
-{
-  text-transform: capitalize;
 }

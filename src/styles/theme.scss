@@ -35,6 +35,18 @@ $list-group-item-padding-x: $custom-padding-x;
 
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
+
+// Extend maps once they're defined
+
+$theme-colors: map-merge(
+  $theme-colors,
+  (
+    "debug": $pink
+  )
+);
+
+// Required variables (cont.)
+
 @import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
 @import "bootstrap/scss/root";

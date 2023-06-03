@@ -1,5 +1,5 @@
 .d-flex.mb-1
-  button#btnOpenProject.btn.btn-primary.me-1 Open Project
-  button#btnNewProject.btn.btn-secondary New Project
-  button#btnSaveProject(hidden).btn.btn-primary Save Project
+  button#btnOpenProject.btn.btn-primary.me-1(onclick="state.openProject()") Open Project
+  button#btnNewProject.btn.btn-secondary(onclick="state.newProject()") New Project
+  button#btnSaveProject(onclick="state.saveProject()" hidden).btn.btn-primary Save Project
   #lblProjectName(hidden).text.flex-grow-1.overflow-ellipsis -
