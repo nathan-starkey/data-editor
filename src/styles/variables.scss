@@ -1,2 +1,40 @@
+// Custom Variables
+
 $custom-padding-x: 1rem;
 $custom-padding-y: .125rem;
+
+// Functions
+
+@import "bootstrap/scss/functions";
+
+// Color system
+
+$primary: #007f5c !default;
+$secondary: #3b444b !default;
+
+// Options
+
+$enable-transitions: false !default;
+
+// Buttons
+
+$btn-padding-y: $custom-padding-y !default;
+$btn-padding-x: $custom-padding-x !default;
+$btn-border-radius: 0 !default;
+
+// Dropdowns
+
+$dropdown-padding-y: .25rem !default;
+$dropdown-border-radius: 0 !default;
+$dropdown-item-padding-y: $custom-padding-y !default;
+$dropdown-item-padding-x: $custom-padding-x !default;
+
+// List group
+
+$list-group-item-padding-y: $custom-padding-y !default;
+$list-group-item-padding-x: $custom-padding-x !default;
+
+// Required modules
+
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";

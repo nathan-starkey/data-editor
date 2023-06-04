@@ -1,51 +1,15 @@
-@import "./variables";
-
-// Functions
-
-@import "bootstrap/scss/functions";
-
-// Color system
-
-$primary: #007f5c;
-$secondary: #3b444b;
-
-// Options
-
-$enable-transitions: false;
-
-// Buttons
-
-$btn-padding-y: $custom-padding-y;
-$btn-padding-x: $custom-padding-x;
-$btn-border-radius: 0;
-
-// Dropdowns
-
-$dropdown-padding-y: .25rem;
-$dropdown-border-radius: 0;
-$dropdown-item-padding-y: $custom-padding-y;
-$dropdown-item-padding-x: $custom-padding-x;
-
-// List group
-
-$list-group-item-padding-y: $custom-padding-y;
-$list-group-item-padding-x: $custom-padding-x;
-
-// Required modules
-
-@import "bootstrap/scss/variables";
-@import "bootstrap/scss/variables-dark";
-
 // Extend maps once they're defined
+
+$debug: $pink !default;
 
 $theme-colors: map-merge(
   $theme-colors,
   (
-    "debug": $pink
+    "debug": $debug
   )
 );
 
-// Required variables (cont.)
+// Required modules
 
 @import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";

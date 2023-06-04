@@ -6,10 +6,34 @@ html(lang="en" data-bs-theme="dark")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       title= title
       block styles
-        link(rel="stylesheet" href="~/src/styles/theme.scss")
-        link(rel="stylesheet" href="~/src/styles/layout.scss")
+        link(rel="stylesheet" href="~/src/styles/index.scss")
       block scripts
         script(src="~/node_modules/bootstrap/dist/js/bootstrap.bundle.js")
   body
     block main
-      include partials/main.pug
+      .row.g-0.h-100.flex-nowrap
+        block sidebar
+          #sidebar.col.h-100.border-end.d-flex.flex-column.overflow-visible.overflow-y-scroll
+            #notesSubtle
+            .p-1.sticky-top.bg-dark
+              #notes
+              block project-status
+                .d-flex.mb-1
+                  button#btnOpenProject.btn.btn-primary.me-1(onclick="state.openProject()") Open Project
+                  button#btnNewProject.btn.btn-secondary(onclick="state.newProject()") New Project
+                  button#btnSaveProject(onclick="state.saveProject()" hidden).btn.btn-primary Save Project
+                  #lblProjectName(hidden).text.flex-grow-1.overflow-ellipsis -
+              block filter
+                input#txtFilter.form-control.width-100(placeholder="Filter" hidden)
+            block object-list
+              #objectList.px-1.flex-grow-1
+            .p-1.sticky-bottom.bg-dark.d-flex
+              block new-object-menu
+                #ddlNewObject.dropdown.flex-shrink-0
+                  button.btn.btn-secondary.dropdown-toggle(data-bs-toggle="dropdown" hidden) New Object
+                  ul.dropdown-menu
+                    block new-object-list
+              block version-label
+                .text.text-end.flex-grow-1= version
+        .col.h-100.overflow-y-auto.bg-dark-subtle
+          block content
