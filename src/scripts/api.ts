@@ -1,47 +1,54 @@
 import { addNote, removeNote, updateObjectList, updateProject } from "./dom";
 
-export function init(provider: NullProvider | Provider) {
-  globalThis["state"] = new State(provider);
+export function init(state: State | StateManager) {
+  let stateManager = state instanceof StateManager ? state : new StateManager(state);
+
+  globalThis["stateManager"] = stateManager;
 }
 
-export interface NullProvider {
+export interface PreInitState {
   init: false;
 
   /**
-   * Initialize with a new project.
+   * Initialize a new project.
    */
-  newProject(): Promise<void>;
+  newProject(stateManager: StateManager): Promise<void>;
 
   /**
-   * Initialize with an existing project.
+   * Initialize an existing project.
    */
-  openProject(): Promise<void>;
+  openProject(stateManager: StateManager): Promise<void>;
 }
 
-export interface Provider {
+export interface PostInitState {
   init: true;
 
   /**
    * Save all changes to the project.
    */
-  saveProject(): Promise<void>;
+  saveProject(stateManager: StateManager): Promise<void>;
 
   /**
    * Get the project's display name.
    */
-  getName(): string;
-
+  getProjectName(): string;
+  
   /**
    * Get an exhaustive list of object types.
    */
   getTypes(): string[];
 
   /**
-   * Get all objects of the specified type.
+   * Get all object ids of the specified type.
    * @param type Type of objects to return.
    */
-  getObjects(type: string): string[];
+  getObjectIdsOfType(type: string): string[];
+}
 
+export type State = PreInitState | PostInitState;
+
+// TODO: Remove and implement methods into PostInitState
+export interface Provider_ {
   /**
    * Create a new object of the specified type.
    * @param type Type of object to create.
@@ -56,32 +63,55 @@ export interface Provider {
   deleteObject(type: string, id: string): void;
 }
 
-export class State {
-  provider: NullProvider | Provider;
-  
+export class StateManager {
+  state: State;
   isBusy = false;
   isSaved = true;
 
-  constructor(provider: NullProvider | Provider) {
-    this.provider = provider;
-  }
-
-  // TODO: Document this.
-  private updateProject() {
-    updateProject(this.provider.init ? this.provider.getName() : undefined, this.isBusy, this.isSaved);
-    this.updateObjectList();
-  }
-
-  // TODO: Document this.
-  private updateObjectList() {
-    updateObjectList(this.provider.init ? Object.fromEntries(this.provider.getTypes().map(type => [type, (this.provider as Provider).getObjects(type)])) : {});
+  constructor(state: State) {
+    this.setState(state);
   }
 
   /**
-   * Safely invoke the provider's newProject method.
+   * Change the state and re-render the UI to reflect any changes.
+   * @param state 
+   */
+  setState(state: State) {
+    this.state = state;
+    this.updateProject();
+    this.updateObjectList();
+  }
+
+  /**
+   * Re-render affected UI components to reflect changes to the project.
+   */
+  updateProject() {
+    let projectName = this.state.init ? this.state.getProjectName() : undefined;
+    
+    updateProject(projectName, this.isBusy, this.isSaved);
+  }
+
+  /**
+   * Re-render affected UI components to reflect changes to the object list.
+   */
+  updateObjectList() {
+    let objectIdsByType = {};
+    let types = this.state.init ? this.state.getTypes() : [];
+
+    for (let type of types) {
+      let objectIds = (this.state as PostInitState).getObjectIdsOfType(type);
+
+      objectIdsByType[type] = objectIds;
+    }
+
+    updateObjectList(objectIdsByType);
+  }
+
+  /**
+   * Attempt to initialize a new project.
    */
   async newProject(): Promise<void> {
-    if (this.isBusy || this.provider.init) return;
+    if (this.isBusy || this.state.init) return;
     
     this.isBusy = true;
     this.updateProject();
@@ -89,7 +119,7 @@ export class State {
     removeNote("projectError");
 
     try {
-      await this.provider.newProject();
+      await this.state.newProject(this);
     } catch (err) {
       console.error(err);
       addNote("projectError", "Failed to create project (see console)", "error");
@@ -97,13 +127,14 @@ export class State {
 
     this.isBusy = false;
     this.updateProject();
+    this.updateObjectList();
   }
 
   /**
-   * Safely invoke the provider's openProject method.
+   * Attempt to initialize an existing project.
    */
   async openProject(): Promise<void> {
-    if (this.isBusy || this.provider.init) return;
+    if (this.isBusy || this.state.init) return;
     
     this.isBusy = true;
     this.updateProject();
@@ -111,7 +142,7 @@ export class State {
     removeNote("projectError");
 
     try {
-      await this.provider.newProject();
+      await this.state.openProject(this);
     } catch (err) {
       console.error(err);
       addNote("projectError", "Failed to open project (see console)", "error");
@@ -119,13 +150,14 @@ export class State {
 
     this.isBusy = false;
     this.updateProject();
+    this.updateObjectList();
   }
 
   /**
-   * Safely invoke the provider's saveProject method.
+   * Attempt to save all changes to the project.
    */
   async saveProject(): Promise<void> {
-    if (this.isBusy || this.isSaved || !this.provider.init) return;
+    if (this.isBusy || this.isSaved || !this.state.init) return;
     
     this.isBusy = true;
     this.updateProject();
@@ -133,7 +165,7 @@ export class State {
     removeNote("projectError");
 
     try {
-      await this.provider.saveProject();
+      await this.state.saveProject(this);
     } catch (err) {
       console.error(err);
       addNote("projectError", "Failed to save project (see console)", "error");
@@ -142,6 +174,7 @@ export class State {
     this.isBusy = false;
     this.isSaved = true;
     this.updateProject();
+    this.updateObjectList();
   }
 
   // TODO: Implement and document this.
@@ -154,15 +187,3 @@ export class State {
     throw new Error("Method not implemented.");
   }
 }
-
-/*
-newProject
-openProject
--
-saveProject
-getName
-getTypes
-getObjects
-newObject
-deleteObject
-*/

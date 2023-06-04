@@ -19,9 +19,9 @@ html(lang="en" data-bs-theme="dark")
               #notes
               block project-status
                 .d-flex.mb-1
-                  button#btnOpenProject.btn.btn-primary.me-1(onclick="state.openProject()") Open Project
-                  button#btnNewProject.btn.btn-secondary(onclick="state.newProject()") New Project
-                  button#btnSaveProject(onclick="state.saveProject()" hidden).btn.btn-primary Save Project
+                  button#btnOpenProject.btn.btn-primary.me-1(onclick="stateManager.openProject()") Open Project
+                  button#btnNewProject.btn.btn-secondary(onclick="stateManager.newProject()") New Project
+                  button#btnSaveProject(onclick="stateManager.saveProject()" hidden).btn.btn-primary Save Project
                   #lblProjectName(hidden).text.flex-grow-1.overflow-ellipsis -
               block filter
                 input#txtFilter.form-control.width-100(placeholder="Filter" hidden)
@@ -29,8 +29,8 @@ html(lang="en" data-bs-theme="dark")
               #objectList.px-1.flex-grow-1
             .p-1.sticky-bottom.bg-dark.d-flex
               block new-object-menu
-                #ddlNewObject.dropdown.flex-shrink-0
-                  button.btn.btn-secondary.dropdown-toggle(data-bs-toggle="dropdown" hidden) New Object
+                #ddlNewObject.dropdown.flex-shrink-0(hidden)
+                  button.btn.btn-secondary.dropdown-toggle(data-bs-toggle="dropdown") New Object
                   ul.dropdown-menu
                     block new-object-list
               block version-label
