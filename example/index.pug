@@ -1,0 +1,25 @@
+extends ../src/index.pug
+
+//- Define the internal variables
+
+prepend head
+  -
+    var title = "Catalogue";
+    var version = "Demo";
+
+//- Append a script to initialize the editor
+
+append scripts
+  script(type="module" src="./scripts.ts")
+
+//- Define your object types in the New Object Dropdown List
+
+block new-object-list
+  li: button.dropdown-item Book
+  li: button.dropdown-item DVD
+  li: button.dropdown-item Magazine
+
+//- (Optional) Override the styles to configure the theme
+
+block styles
+  link(rel="stylesheet" href="./styles.scss")

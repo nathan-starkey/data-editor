@@ -1,8 +1,8 @@
 {
   "name": "data-editor",
   "scripts": {
-    "build": "parcel build --public-url ./ test/index.pug",
-    "watch": "parcel watch --public-url ./ test/index.pug"
+    "build": "parcel build --public-url ./ example/index.pug",
+    "watch": "parcel watch --public-url ./ example/index.pug"
   },
   "devDependencies": {
     "@parcel/transformer-pug": "^2.8.3",
